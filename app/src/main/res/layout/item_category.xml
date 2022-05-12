@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="30dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="0dp">
+    <LinearLayout
+        android:id="@+id/cateItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="20"
+        android:layout_marginRight="5dp">
+
+        <ImageView
+            android:id="@+id/img_cate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:paddingHorizontal="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/b1" />
+
+        <TextView
+            android:id="@+id/cate_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="Food 1"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:layout_weight="10"/>
+
+        <TextView
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:text="|"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

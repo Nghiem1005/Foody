@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="10">
+
+    <LinearLayout
+        android:id="@+id/layoutTitle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#CD2027"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_weight="1">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="21dp"
+            android:layout_height="38dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/arrowlefticon"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="9.5"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:text="Cart"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_food_cart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"/>
+
+
+        <Button
+            android:id="@+id/btnPay"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="Check out"
+            android:layout_weight="1"
+            android:backgroundTint="#CD2027"/>
+
+
+
+</LinearLayout>

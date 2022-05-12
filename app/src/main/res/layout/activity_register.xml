@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background">
+    <!--tools:context=".RegisterActivity"-->
+
+
+    <ImageView
+        android:id="@+id/imglogo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txtIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Create a new account"
+        android:textColor="@color/black"
+        android:textSize="26dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imglogo" />
+
+    <EditText
+        android:id="@+id/editUsername"
+        android:paddingLeft="75dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/txtIntro"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:hint="Enter your username"
+        android:textSize="20dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_width="300dp"
+        android:layout_height="55dp"/>
+
+    <ImageView
+        android:id="@+id/imgUsername"
+        android:layout_width="53dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="220dp"
+        android:src="@drawable/usericon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtIntro" />
+
+    <TextView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtIntro"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="168dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:text="|"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/editPassword"
+        android:paddingLeft="75dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/editUsername"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:hint="Enter your password"
+        android:textSize="20dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_width="300dp"
+        android:layout_height="55dp"/>
+
+    <ImageView
+        android:id="@+id/imgPassword"
+        android:layout_width="109dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="-2dp"
+        android:layout_marginRight="220dp"
+        android:src="@drawable/passicon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editUsername" />
+
+    <TextView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editUsername"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="168dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:text="|"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/editFullname"
+        android:paddingLeft="75dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/editPassword"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:hint="Enter your full name"
+        android:textSize="20dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_width="300dp"
+        android:layout_height="55dp"/>
+
+    <ImageView
+        android:id="@+id/imgFullname"
+        android:layout_width="58dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="220dp"
+        android:src="@drawable/fullnameicon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editPassword" />
+
+    <TextView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editPassword"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="168dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:text="|"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/editPhone"
+        android:paddingLeft="75dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/editFullname"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:hint="Enter your phone"
+        android:textSize="20dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_width="300dp"
+        android:layout_height="55dp"/>
+
+    <ImageView
+        android:id="@+id/imgPhone"
+        android:layout_width="57dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="23dp"
+        android:src="@drawable/phoneicon"
+        android:layout_marginRight="220dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editFullname" />
+
+    <!--"-->
+
+    <TextView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editFullname"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="168dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:text="|"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:paddingLeft="75dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/editPhone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:hint="Enter your email"
+        android:textSize="20dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_width="300dp"
+        android:layout_height="55dp"/>
+
+    <ImageView
+        android:id="@+id/imgEmail"
+        android:layout_width="57dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginRight="220dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editPhone" />
+
+
+    <TextView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editPhone"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="168dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:text="|"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRegister"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_edittext"
+        android:text="Register"
+        android:textSize="14dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/txtRegister"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editPhone" />
+
+    <TextView
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="Have a account, login now!"
+        android:textStyle="bold|italic"
+        android:id="@+id/txtRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
