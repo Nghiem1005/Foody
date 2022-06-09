@@ -8,17 +8,17 @@ public class CartDetail implements Serializable {
     private int idCH;
     private int Quantity;
 
-    public CartDetail(int id, int idMon, int idCH, int quantity) {
+    public CartDetail(int id, int idCH, int idMon, int quantity) {
         this.id = id;
-        this.idMon = idMon;
         this.idCH = idCH;
-        Quantity = quantity;
+        this.idMon = idMon;
+        this.Quantity = quantity;
     }
 
-    public CartDetail(int idMon, int idCH, int quantity) {
-        this.idMon = idMon;
+    public CartDetail(int idCH, int idMon, int quantity) {
         this.idCH = idCH;
-        Quantity = quantity;
+        this.idMon = idMon;
+        this.Quantity = quantity;
     }
 
     public int getId() {

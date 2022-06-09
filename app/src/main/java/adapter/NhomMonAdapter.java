@@ -1,8 +1,11 @@
 package adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +16,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
-import food.food;
 import hcmute.nhom35.foody.MainActivity;
 import hcmute.nhom35.foody.R;
 import models.NhomMon;
@@ -23,6 +29,8 @@ import models.NhomMon;
 public class NhomMonAdapter extends RecyclerView.Adapter<NhomMonAdapter.FoodHolder> {
     private Context mContext;
     private List<NhomMon> mfoods;
+
+    int[] listCate = {R.drawable.b1, R.drawable.b2, R.drawable.b3, R.drawable.b4, R.drawable.b5, R.drawable.b6};
 
     public NhomMonAdapter(Context mContext) {
         this.mContext = mContext;
@@ -41,13 +49,15 @@ public class NhomMonAdapter extends RecyclerView.Adapter<NhomMonAdapter.FoodHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NhomMonAdapter.FoodHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FoodHolder holder, int position) {
         NhomMon fd = mfoods.get(position);
         if(fd == null){
             return;
         }
 
-        //holder.imgFood.setImageResource(fd.getId());
+
+        holder.imgFood.setImageResource(listCate[position]);
+
         holder.txtName.setText(fd.getName());
         holder.cateItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +87,7 @@ public class NhomMonAdapter extends RecyclerView.Adapter<NhomMonAdapter.FoodHold
 
             super(itemView);
 
-            //imgFood = itemView.findViewById(R.id.img_food);
+            imgFood = itemView.findViewById(R.id.img_cate);
             txtName = itemView.findViewById(R.id.cate_name);
             cateItem = itemView.findViewById(R.id.cateItem);
 

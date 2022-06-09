@@ -9,6 +9,7 @@ public class User {
     private String birthday;
     private String email;
     private String role;
+    private byte[] img;
 
     public int getId() {
         return id;
@@ -74,7 +75,7 @@ public class User {
         this.role = role;
     }
 
-    public User(int id, String userName, String password, String fullName, String phone, String birthday, String email, String role) {
+    public User(int id, String userName, String password, String fullName, String phone, String birthday, String email, String role, byte[] img) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -83,9 +84,18 @@ public class User {
         this.birthday = birthday;
         this.email = email;
         this.role = role;
+        this.img = img;
     }
 
-    public User(String userName, String password, String fullName, String phone, String birthday, String email, String role) {
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] img) {
+        this.img = img;
+    }
+
+    public User(String userName, String password, String fullName, String phone, String birthday, String email, String role, byte[] img) {
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
@@ -93,5 +103,6 @@ public class User {
         this.birthday = birthday;
         this.email = email;
         this.role = role;
+        this.img = img;
     }
 }

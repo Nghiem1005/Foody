@@ -11,6 +11,11 @@ public class MonAn {
         this.type = type;
     }
 
+    public MonAn(String name, int type) {
+        this.name = name;
+        this.type = type;
+    }
+
     public int getId() {
         return id;
     }

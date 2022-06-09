@@ -1,25 +1,18 @@
 package hcmute.nhom35.foody;
 
-import android.app.Activity;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,93 +21,76 @@ import java.util.List;
 import DAO.CTCuaHangDAO;
 import DAO.CartDetailDAO;
 import DAO.CuaHangDAO;
-import DAO.MonAnDAO;
+import DAO.HoaDonDAO;
+import adapter.BillAdapter;
 import adapter.CartAdapter;
-import adapter.FoodAdapter1;
 import database.database;
-import models.CTCuaHang;
 import models.CartDetail;
 import models.CuaHang;
+import models.HoaDon;
 
-public class RestaurantActivity extends Activity {
+public class BillActivity extends AppCompatActivity {
 
-    public static final String SHARED_PREFS = "sharePrefs";
+    ListView listBill;
+    BillAdapter billAdapter;
 
-    private RecyclerView recyclerViewFood;
+    List<HoaDon> hoaDonList;
 
-    FoodAdapter1 adapter;
-    CartAdapter cartAdapter;
+    HoaDonDAO hoaDonDAO = new HoaDonDAO(new database(this));
 
-    ListView listViewFood;
-    ArrayList<CTCuaHang> arrayFood;
-    CTCuaHangDAO ctCuaHangDAO = new CTCuaHangDAO(new database(this));
-
-    ImageView btnHome, btnProfile, btnRegisterRes, btnBill;
+    ImageView btnHome, btncart, btnRegisterRes, btnProfile;
+    TextView totalCart;
     TextView btnPay;
     ListView listMon;
-
-    TextView totalCart;
-
-    CTCuaHangDAO ctCuaHangdao = new CTCuaHangDAO(new database(this));
-    MonAnDAO monAnDAO = new MonAnDAO(new database(this));
     CartDetailDAO cartDetailDAO = new CartDetailDAO(new database(this));
+    CTCuaHangDAO ctCuaHangDAO = new CTCuaHangDAO(new database(this));
     CuaHangDAO cuaHangDAO = new CuaHangDAO(new database(this));
-
-    ImageView btnCart;
+    CartAdapter cartAdapter;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activty_restaurant);
+        setContentView(R.layout.activity_bill);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         Intent intent = getIntent();
-
-        int idCH = intent.getIntExtra("idCH", 1);
         int idUser = intent.getIntExtra("idUser", 1);
 
-        btnCart = findViewById(R.id.btnCart);
-        btnBill = findViewById(R.id.btnBill);
+        listBill =findViewById(R.id.list_bill);
+
+        btncart = findViewById(R.id.btnCart);
         btnProfile = findViewById(R.id.profileBtn);
         btnRegisterRes = findViewById(R.id.btnRegisterRes);
         btnHome = findViewById(R.id.homeBtn);
 
-        LinearLayoutManager linearLayoutManagerFood = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        hoaDonList = new ArrayList<>();
+
+        billAdapter = new BillAdapter(this, R.layout.item_bill, hoaDonList);
+
+        listBill.setAdapter(billAdapter);
 
 
-        //List mon an
-        listViewFood = (ListView) findViewById(R.id.list_food_restaurant);
-        arrayFood = new ArrayList<>();
+        if(hoaDonDAO.getAllHoaDonByIdUser(idUser) != null){
+            hoaDonList = hoaDonDAO.getAllHoaDonByIdUser(idUser);
+            billAdapter = new BillAdapter(this, R.layout.item_bill, hoaDonList);
 
-        adapter = new FoodAdapter1(this, R.layout.list_item_food, ctCuaHangdao.getCuaHangByIdCuaHang(idCH));
+            listBill.setAdapter(billAdapter);
+        }
 
-        listViewFood.setAdapter(adapter);
-
-        adapter.notifyDataSetChanged();
-
-        UIUtils.setListViewHeightBasedOnItems(listViewFood);
-
-        listViewFood.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(RestaurantActivity.this, DishNameActivity.class);
-                CTCuaHang ctCuaHang = (CTCuaHang) adapter.getItem(i);
-                intent.putExtra("idCH", ctCuaHang.getIdCH());
-                intent.putExtra("idMon", ctCuaHang.getIdMon());
-                startActivity(intent);
-            }
-        });
-
-        btnCart.setOnClickListener(view -> {
+        btncart.setOnClickListener(view -> {
             Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_cart);
             listMon = dialog.findViewById(R.id.list_food_cart);
             totalCart = dialog.findViewById(R.id.totalCart);
             List<CartDetail> cartDetailList = cartDetailDAO.getAllCart();
-            cartAdapter = new CartAdapter(this, R.layout.list_item_booking, cartDetailDAO.getAllCart());
-            dialog.getWindow().setLayout(((getWidth(this) / 100) * 90), LinearLayout.LayoutParams.MATCH_PARENT);
+            cartAdapter = new CartAdapter(this, R.layout.list_item_booking, cartDetailList);
+            //dialog.getWindow().setLayout(((getWidth(this) )), ((getHeight(this) )));
+
             dialog.getWindow().setGravity(Gravity.END);
-            dialog.show();
+
             listMon.setAdapter(cartAdapter);
             int total = 0;
             for(int i=0; i<cartDetailDAO.getAllCart().size(); i++){
@@ -133,7 +109,7 @@ public class RestaurantActivity extends Activity {
             btnPay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent2 = new Intent(RestaurantActivity.this, MapsActivity.class);
+                    Intent intent2 = new Intent(BillActivity.this, MapsActivity.class);
                     intent2.putExtra("idMon", (Serializable) cartDetailDAO.getAllCart());
                     intent2.putExtra("idUser", idUser);
                     startActivity(intent2);
@@ -155,19 +131,19 @@ public class RestaurantActivity extends Activity {
         });
 
         btnProfile.setOnClickListener(view -> {
-            Intent intent3 = new Intent(RestaurantActivity.this, ProfileActivity.class);
+            Intent intent3 = new Intent(BillActivity.this, ProfileActivity.class);
             intent3.putExtra("idUser", idUser);
             startActivity(intent3);
         });
 
         btnHome.setOnClickListener(view -> {
-            Intent intent2 = new Intent(RestaurantActivity.this, MainActivity.class);
-            intent2.putExtra("idUser", idUser);
-            startActivity(intent2);
+            Intent intent1 = new Intent(BillActivity.this, MainActivity.class);
+            intent1.putExtra("idUser", idUser);
+            startActivity(intent1);
         });
 
         btnRegisterRes.setOnClickListener(view -> {
-            Intent intent2 = new Intent(RestaurantActivity.this, RegisterRestaurantActivity.class);
+            Intent intent2 = new Intent(BillActivity.this, RegisterRestaurantActivity.class);
             intent2.putExtra("idUser", idUser);
 
 
@@ -177,18 +153,5 @@ public class RestaurantActivity extends Activity {
             }
             startActivity(intent2);
         });
-
-        btnBill.setOnClickListener(view -> {
-            Intent intent2 = new Intent(RestaurantActivity.this, BillActivity.class);
-            intent2.putExtra("idUser", idUser);
-            startActivity(intent2);
-        });
     }
-    public static int getWidth(Context context) {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowmanager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
-        return displayMetrics.widthPixels;
-    }
-
 }

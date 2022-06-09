@@ -27,7 +27,17 @@ public class HoaDonDAO {
 
         Cursor dataUSer = data.GetData("SELECT * FROM HoaDon");
         while (dataUSer.moveToNext()){
-            list.add(new HoaDon(dataUSer.getInt(0), dataUSer.getInt(1), dataUSer.getString(2), dataUSer.getInt(3)));
+            list.add(new HoaDon(dataUSer.getInt(0), dataUSer.getString(1), dataUSer.getInt(2), dataUSer.getInt(3)));
+        }
+        return list;
+    }
+
+    public List<HoaDon> getAllHoaDonByIdUser(int id) {
+        List<HoaDon> list = new ArrayList<>();
+
+        Cursor dataUSer = data.GetData("SELECT * FROM HoaDon WHERE userID = " + id);
+        while (dataUSer.moveToNext()){
+            list.add(new HoaDon(dataUSer.getInt(0), dataUSer.getString(1), dataUSer.getInt(2), dataUSer.getInt(3)));
         }
         return list;
     }

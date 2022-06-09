@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import database.database;
 import models.CTCuaHang;
+import models.HoaDon;
 import models.MonAn;
 
 public class MonAnDAO {
@@ -23,8 +24,16 @@ public class MonAnDAO {
 
     public MonAn getMonAnByMonAn(String name) {
         Cursor dataUSer = data.GetData("SELECT * FROM MonAn where name ='" + name + "'");
-        dataUSer.moveToFirst();
-        monAnModel = new MonAn(dataUSer.getInt(0), dataUSer.getString(1), dataUSer.getInt(2));
+        if(dataUSer.getCount() == 0){
+            monAnModel = null;
+        } else {
+            dataUSer.moveToFirst();
+            monAnModel = new MonAn(dataUSer.getInt(0), dataUSer.getString(1), dataUSer.getInt(2));
+        }
         return monAnModel;
+    }
+
+    public void insert(MonAn monAn) {
+        data.QueryData("INSERT INTO MonAn VALUES(null, '"+ monAn.getName() +"','"+ monAn.getType() + "')");
     }
 }

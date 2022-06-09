@@ -2,6 +2,7 @@ package hcmute.nhom35.foody;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,14 +25,16 @@ public class MainActivity1 extends AppCompatActivity {
     TextView txtRegister;
     EditText eUserName, ePass;
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_1);
 
-        /*GetDatabase datas = new GetDatabase();
+        GetDatabase datas = new GetDatabase();
         datas.createDatabase(new database(this));
-        datas.addData(new database(this));*/
+        //Chạy data cho lần đầu tiên
+        datas.addData(new database(this));
 
         UserDAO userdao = new UserDAO(new database(this));
 

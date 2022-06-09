@@ -20,7 +20,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:background="#C63C3C"
             android:orientation="horizontal"
             android:weightSum="10"
@@ -36,14 +36,14 @@
                 android:layout_weight="2.5"
                 android:src="@drawable/logo" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="6"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_weight="6.5"
+                android:layout_marginLeft="15dp">
 
                 <EditText
+                    android:id="@+id/eSearch"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -52,29 +52,24 @@
                     android:textStyle="bold|italic"
                     android:textColor="@color/black"
                     android:textSize="14dp"
+                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="35dp"
                     android:background="@drawable/rounded_edittext"
                     android:backgroundTint="@color/white"/>
 
                 <ImageView
+                    android:id="@+id/btnSearch"
                     android:layout_width="35dp"
-                    android:layout_height="10dp"
+                    android:layout_height="25dp"
                     android:layout_marginTop="26dp"
-                    android:src="@drawable/ic_baseline_search_24"
+                    android:src="@drawable/searchicon"
                     android:layout_marginRight="190dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-            </LinearLayout>
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:paddingLeft="10dp"
-                android:src="@drawable/ic_baseline_menu_24" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <ScrollView
@@ -98,8 +93,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="8"
                         android:gravity="center"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp">
+                        android:orientation="horizontal">
 
                         <ImageView
 
@@ -108,7 +102,7 @@
                             android:layout_weight="3"
                             android:adjustViewBounds="true"
                             android:scaleType="fitXY"
-                            android:src="@drawable/food" />
+                            android:src="@drawable/a2" />
 
                     </LinearLayout>
 
@@ -162,127 +156,52 @@
             </LinearLayout>
 
         </ScrollView>
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinatorLayout"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="58dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="#F6E9E9"
+            android:layout_weight="1">
 
-            <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/app_bar"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/homeBtn"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:backgroundTint="#f6f6f6"
-                app:fabCradleMargin="8dp"
-                app:fabCradleRoundedCornerRadius="50dp"
-                app:fabCradleVerticalOffset="6dp">
+                android:src="@drawable/homeicon_menubar_red"
+                android:layout_weight="0.2" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/profileBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/usericon_menubar_red"
+                android:layout_weight="0.2" />
 
-                    <LinearLayout
-                        android:id="@+id/homeBtn"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:orientation="vertical">
+            <ImageView
+                android:id="@+id/btnRegisterRes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/restauranticon_menubar_red"
+                android:layout_weight="0.2" />
 
-                        <ImageView
-                            android:id="@+id/imageHome"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/bottom_btn1" />
+            <ImageView
+                android:id="@+id/btnCart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/carticon_menubar_red"
+                android:layout_weight="0.2" />
 
-                        <TextView
-                            android:id="@+id/text12"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Trang chủ"
-                            android:textAlignment="center"
-                            android:textColor="#676767"
-                            android:textSize="12sp" />
-                    </LinearLayout>
+            <ImageView
+                android:id="@+id/btnBill"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/billicon_menubar_red"
+                android:layout_weight="0.2" />
 
-                    <LinearLayout
-                        android:id="@+id/profileBtn"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/imageView6"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/bottom_btn2" />
+        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/textView14"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Profile"
-                            android:textAlignment="center"
-                            android:textColor="#676767"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/btnCart"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:orientation="vertical"
-                        android:visibility="visible">
-
-                        <ImageView
-                            android:id="@+id/imageView40"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/bottom_btn5" />
-
-                        <TextView
-                            android:id="@+id/textView18"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Giỏ hàng"
-                            android:textAlignment="center"
-                            android:textColor="#676767"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/btnRegisterRes"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageView5"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/bottom_btn3" />
-
-                        <TextView
-                            android:id="@+id/textView10"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Hóa đơn"
-                            android:textAlignment="center"
-                            android:textColor="#676767"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.bottomappbar.BottomAppBar>
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
 
 

@@ -2,17 +2,22 @@ package hcmute.nhom35.foody;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,15 +27,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import DAO.CTCuaHangDAO;
+import DAO.CartDetailDAO;
+import DAO.CuaHangDAO;
 import DAO.UserAddressDAO;
 import DAO.UserDAO;
+import adapter.CartAdapter;
 import adapter.UserAddressAdapter;
 import database.database;
+import models.CartDetail;
+import models.CuaHang;
 import models.User;
 import models.UserAddress;
 
@@ -51,9 +64,21 @@ public class ProfileActivity extends AppCompatActivity {
 
     ImageView imvImaAva, btnAddAddress;
 
-    LinearLayout btnHome;
+    ImageView btnHome, btncart, btnRegisterRes, btnBill;
+    TextView totalCart;
+    TextView btnPay;
+    ListView listMon;
+    CartDetailDAO cartDetailDAO = new CartDetailDAO(new database(this));
+    CTCuaHangDAO ctCuaHangDAO = new CTCuaHangDAO(new database(this));
+    CuaHangDAO cuaHangDAO = new CuaHangDAO(new database(this));
+    CartAdapter cartAdapter;
+
+    Bitmap bitmap;
+
+    User user;
 
     Button btnSaveProfile;
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,17 +101,30 @@ public class ProfileActivity extends AppCompatActivity {
 
         imvImaAva = (ImageView) findViewById(R.id.imvImgAva);
 
+        btncart = findViewById(R.id.btnCart);
+        btnHome = findViewById(R.id.homeBtn);
+        btnRegisterRes = findViewById(R.id.btnRegisterRes);
+        btnBill = findViewById(R.id.btnBill);
+
         Intent intent = getIntent();
 
         int idUser = intent.getIntExtra("idUser", 1);
 
-        User user = userDAO.getUserById(idUser);
+        user = userDAO.getUserById(idUser);
 
         eFullname.setText(user.getFullName());
         eUsername.setText(user.getUserName());
         eBirthday.setText(user.getBirthday());
         ePhone.setText(user.getPhone());
         eEmail.setText(user.getEmail());
+
+        byte[] avatar;
+        if(user.getImg() != null){
+            avatar = user.getImg();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
+            imvImaAva.setImageBitmap(bitmap);
+        }
+
 
         txtChangeAva.setOnClickListener(view -> {
             ActivityCompat.requestPermissions(ProfileActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_AVATAR);
@@ -103,17 +141,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnSaveProfile.setOnClickListener(view -> {
             if(eChangeNewPass.getText().toString().equals("")){
-                System.out.println(0);
-                userDAO.updateUser(new User(idUser, eUsername.getText().toString(), user.getPassword(), eFullname.getText().toString(), ePhone.getText().toString(), eBirthday.getText().toString(), eEmail.getText().toString(), user.getRole()));
-                System.out.println(1);
+                userDAO.updateUser(new User(idUser, eUsername.getText().toString(), user.getPassword(), eFullname.getText().toString(), ePhone.getText().toString(), eBirthday.getText().toString(), eEmail.getText().toString(), user.getRole(),user.getImg()));
                 Toast.makeText(this, "Update thành công", Toast.LENGTH_SHORT).show();
             } else {
                 if (eChangeOldPass.getText().toString().equals(user.getPassword()) && eChangeNewPass.getText().toString().equals(eChangeConfirmPass.getText().toString()) ){
-                    userDAO.updateUser(new User(idUser, eUsername.getText().toString(), eChangeNewPass.getText().toString(), eFullname.getText().toString(), ePhone.getText().toString(), eBirthday.getText().toString(), eEmail.getText().toString(), user.getRole()));
+                    userDAO.updateUser(new User(idUser, eUsername.getText().toString(), eChangeNewPass.getText().toString(), eFullname.getText().toString(), ePhone.getText().toString(), eBirthday.getText().toString(), eEmail.getText().toString(), user.getRole(), user.getImg()));
                     Toast.makeText(this, "Update thành công", Toast.LENGTH_SHORT).show();
-                    System.out.println(2);
                 } else {
-                    System.out.println(3);
                     Toast.makeText(this, "Thông tin vừa nhập không chính xác", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -129,9 +163,6 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 }
             }
-
-            /*Intent intentMain = new Intent(ProfileActivity.this, MainActivity.class);
-            startActivity(intentMain);*/
         });
 
         btnAddAddress.setOnClickListener(view -> {
@@ -140,13 +171,79 @@ public class ProfileActivity extends AppCompatActivity {
             lvAddress.setAdapter(addressAdapter);
         });
 
-        btnHome = findViewById(R.id.homeBtn);
-
         btnHome.setOnClickListener(view -> {
             Intent intent1 = new Intent(ProfileActivity.this, MainActivity.class);
             intent1.putExtra("idUser", idUser);
-            startActivity(intent);
+            startActivity(intent1);
         });
+
+        btncart.setOnClickListener(view -> {
+            Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.dialog_cart);
+            listMon = dialog.findViewById(R.id.list_food_cart);
+            totalCart = dialog.findViewById(R.id.totalCart);
+            List<CartDetail> cartDetailList = cartDetailDAO.getAllCart();
+            cartAdapter = new CartAdapter(this, R.layout.list_item_booking, cartDetailList);
+            //dialog.getWindow().setLayout(((getWidth(this) )), ((getHeight(this) )));
+
+            dialog.getWindow().setGravity(Gravity.END);
+
+            listMon.setAdapter(cartAdapter);
+            int total = 0;
+            for(int i=0; i<cartDetailDAO.getAllCart().size(); i++){
+                String value = ctCuaHangDAO.getCTCuaHangByIdCuaHangMon(cartDetailList.get(i).getIdCH(), cartDetailList.get(i).getIdMon()).getPrice();
+                String[] result = ctCuaHangDAO.getCTCuaHangByIdCuaHangMon(cartDetailList.get(i).getIdCH(), cartDetailList.get(i).getIdMon()).getPrice().split(",");
+
+                int price = Integer.valueOf(ctCuaHangDAO.getCTCuaHangByIdCuaHangMon(cartDetailList.get(i).getIdCH(), cartDetailList.get(i).getIdMon()).getPrice().substring(0, 2));
+                total = total + (price * cartDetailList.get(i).getQuantity());
+                //total = total + (cartDetailDAO.getAllCart().get(i).getQuantity() * ctCuaHangDAO.getCTCuaHangByIdCuaHangMon(cartDetailList.get(i).getIdCH(), cartDetailList.get(i).getIdMon()).getPrice())
+            }
+            totalCart.setText(String.valueOf(total) + ",000");
+
+
+            btnPay = dialog.findViewById(R.id.btnPay);
+
+            btnPay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent2 = new Intent(ProfileActivity.this, MapsActivity.class);
+                    intent2.putExtra("idMon", (Serializable) cartDetailDAO.getAllCart());
+                    intent2.putExtra("idUser", idUser);
+                    startActivity(intent2);
+                }
+            });
+            ImageView btnExit  = dialog.findViewById(R.id.btnExit);
+            btnExit.setOnClickListener(view1 -> {
+                dialog.dismiss();
+            });
+
+            TextView btnDeleteAll = dialog.findViewById(R.id.btnDeleteAll);
+            btnDeleteAll.setOnClickListener(view1 -> {
+                cartDetailDAO.clear();
+                dialog.dismiss();
+            });
+
+            dialog.show();
+        });
+
+        btnRegisterRes.setOnClickListener(view -> {
+            Intent intent2 = new Intent(ProfileActivity.this, RegisterRestaurantActivity.class);
+            intent2.putExtra("idUser", idUser);
+
+
+            CuaHang cuaHang = cuaHangDAO.getCuaHangByUserId(idUser);
+            if(cuaHang != null){
+                intent.putExtra("idCH", cuaHang.getId());
+            }
+            startActivity(intent2);
+        });
+
+        btnBill.setOnClickListener(view -> {
+            Intent intent2 = new Intent(ProfileActivity.this, BillActivity.class);
+            intent2.putExtra("idUser", idUser);
+            startActivity(intent2);
+        });
+
     }
 
     @Override
@@ -167,8 +264,11 @@ public class ProfileActivity extends AppCompatActivity {
             Uri uri = data.getData();
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                bitmap = BitmapFactory.decodeStream(inputStream);
                 imvImaAva.setImageBitmap(bitmap);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                user.setImg(byteArrayOutputStream.toByteArray());
             } catch (FileNotFoundException e){
                 e.printStackTrace();
             }

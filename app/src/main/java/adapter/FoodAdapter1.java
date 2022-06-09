@@ -1,6 +1,8 @@
 package adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +75,13 @@ public class FoodAdapter1 extends BaseAdapter {
 
         holder.txtName.setText(mon.getName());
         holder.txtInfo.setText(fd.getDescription());
-       /* holder.imgFood.setImageResource(fd.getImgage());*/
+        //holder.imgFood.setImageResource(mon.getId());
+        if(fd.getImgage() != null){
+            byte[] img = fd.getImgage();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
+            holder.imgFood.setImageBitmap(bitmap);
+        }
+
         System.out.println("Owr dau" + holder.txtName.getText().toString());
         return view;
     }

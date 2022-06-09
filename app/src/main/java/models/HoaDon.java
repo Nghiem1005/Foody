@@ -2,18 +2,21 @@ package models;
 
 public class HoaDon {
     private int id;
-    private int userID;
     private String day;
     private int total;
+    private int userID;
 
-    public HoaDon(int id, int userID, String day, int total) {
+    public HoaDon(int id, String day, int total, int userID) {
         this.id = id;
         this.userID = userID;
         this.day = day;
         this.total = total;
     }
 
-    public HoaDon(int userID, String day, int total) {
+    public HoaDon() {
+    }
+
+    public HoaDon(String day, int total, int userID) {
         this.userID = userID;
         this.day = day;
         this.total = total;

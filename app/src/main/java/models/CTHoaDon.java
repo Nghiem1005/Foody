@@ -13,6 +13,9 @@ public class CTHoaDon {
         this.quantity = quantity;
     }
 
+    public CTHoaDon() {
+    }
+
     public int getIdHD() {
         return idHD;
     }

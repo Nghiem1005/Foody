@@ -40,19 +40,19 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="40dp"
+        android:layout_width="100dp"
         android:layout_height="107dp"
-        android:orientation="vertical"
-        android:paddingTop="10dp">
+        android:orientation="horizontal"
+        android:paddingTop="3dp">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/imgEditDish"
             android:layout_width="35dp"
             android:layout_height="28dp"
             android:layout_gravity="center"
-
+            android:src="@drawable/editicon"
             android:layout_marginTop="10dp"/>
-        <!--android:src="@drawable/editicon"-->
+        &lt;!&ndash;&ndash;&gt;-->
 
         <ImageView
             android:id="@+id/imgDelDish"
@@ -60,18 +60,9 @@
             android:layout_height="26dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-             />
+            android:src="@drawable/deleteicon"/>
        <!-- android:src="@drawable/deleteicon"-->
 
     </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/cbShowDish"
-        android:layout_width="wrap_content"
-        android:layout_height="107dp"
-        android:gravity="left|center"
-        android:textColor="@color/black"
-        android:textSize="10dp"
-        android:textStyle="bold" />
 
 </LinearLayout>

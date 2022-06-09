@@ -1,52 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:orientation="vertical"
+android:layout_width="350dp"
+android:layout_height="650dp"
+android:layout_weight="10">
+
+<LinearLayout
+    android:id="@+id/layoutTitle"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="10">
+    android:layout_height="0dp"
+    android:background="#CD2027"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:layout_weight="1">
 
-    <LinearLayout
-        android:id="@+id/layoutTitle"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#CD2027"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_weight="1">
+    <TextView
+        android:id="@+id/btnDeleteAll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Xoá hết"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="16dp"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="21dp"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_weight="9.5"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:text="Cart"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/btnExit"
+        android:layout_width="26dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/exiticon_dialogcart" />
+</LinearLayout>
+
+<ListView
+    android:id="@+id/list_food_cart"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="8"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="horizontal"
+    android:background="#F4F0F0">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingRight="10dp">
+
+
+        <ImageView
+            android:layout_width="59dp"
             android:layout_height="38dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/arrowlefticon"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_weight="9.5"
-            android:gravity="center"
-            android:paddingRight="10dp"
-            android:text="Cart"
-            android:textColor="@color/white"
-            android:textSize="30dp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/carticon_menubar_red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ListView
-        android:id="@+id/list_food_cart"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"/>
+    <TextView
+        android:id="@+id/totalCart"
+        android:layout_width="145dp"
+        android:layout_height="22dp"
+        android:gravity="end"
+        android:paddingRight="10dp"
+        android:text="100,000đ"
+        android:textColor="#CD2027"
+        android:textSize="17dp" />
 
+    <TextView
+        android:id="@+id/btnPay"
+        android:layout_width="129dp"
+        android:layout_height="match_parent"
+        android:background="#CD2027"
+        android:gravity="center"
+        android:text="Check out"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnPay"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="Check out"
-            android:layout_weight="1"
-            android:backgroundTint="#CD2027"/>
-
-
+</LinearLayout>
 
 </LinearLayout>

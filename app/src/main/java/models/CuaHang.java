@@ -7,14 +7,16 @@ public class CuaHang {
     private String timeOpen;
     private String timeClose;
     private int idUser;
+    private byte[] img;
 
-    public CuaHang(int id, String name, String address, String timeOpen, String timeClose, int idUser) {
+    public CuaHang(int id, String name, String address, String timeOpen, String timeClose, int idUser, byte[] img) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.timeOpen = timeOpen;
         this.timeClose = timeClose;
         this.idUser = idUser;
+        this.img = img;
     }
 
     public int getId() {
@@ -63,5 +65,16 @@ public class CuaHang {
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
+    }
+
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] img) {
+        this.img = img;
+    }
+
+    public CuaHang() {
     }
 }

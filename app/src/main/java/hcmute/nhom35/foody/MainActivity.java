@@ -1,18 +1,29 @@
 package hcmute.nhom35.foody;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -20,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import DAO.CTCuaHangDAO;
 import DAO.CartDetailDAO;
 import DAO.CuaHangDAO;
 import DAO.NhomMonDAO;
@@ -27,27 +39,14 @@ import adapter.CartAdapter;
 import adapter.CuaHangAdapter;
 import adapter.FoodAdapter1;
 import adapter.NhomMonAdapter;
-import category.Category;
-import category.CategoryAdapter;
 import database.database;
-import food.food;
-import food.foodAdapter;
 import models.CTCuaHang;
+import models.CartDetail;
 import models.CuaHang;
 import database.GetDatabase;
 
 public class MainActivity extends AppCompatActivity {
-
-    // creating object of ViewPager
-
-
-    // images array
-
-
-
-
     private RecyclerView recyclerViewFood;
-    private foodAdapter foodAdapterl;
 
     private RecyclerView recyclerViewFood1;
     private CuaHangAdapter cuaHangAdapter;
@@ -63,13 +62,20 @@ public class MainActivity extends AppCompatActivity {
     CuaHangDAO cuaHangDAO = new CuaHangDAO(new database(this));
     NhomMonDAO nhomMonDAO = new NhomMonDAO(new database(this));
     CartDetailDAO cartDetailDAO = new CartDetailDAO(new database(this));
+    CTCuaHangDAO ctCuaHangDAO = new CTCuaHangDAO(new database(this));
 
-    LinearLayout btncart, btnProfile, btnRegisterRestaurant;
-    Button btnPay;
+    ImageView btncart, btnProfile, btnRegisterRes, btnBill;
+    TextView btnPay;
     ListView listMon;
+
+    TextView totalCart;
+
+    EditText eSearch;
 
     Button btnHoaDon;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,29 +86,9 @@ public class MainActivity extends AppCompatActivity {
         int idCate = 0;
 
         btncart = findViewById(R.id.btnCart);
-
-
-
-        /*// Initializing the ViewPager Object
-        mViewPager = (ViewPager)findViewById(R.id.viewPagerMain);
-
-        // Initializing the ViewPagerAdapter
-        mViewPagerAdapter = new ViewPagerAdapter(MainActivity.this, images);
-
-        // Adding the Adapter to the ViewPager
-        mViewPager.setAdapter(mViewPagerAdapter);*/
-
-        /*recyclerViewFood = findViewById(R.id.rcv_food);
-
-        foodAdapterl = new foodAdapter(this);
-
-        LinearLayoutManager linearLayoutManagerFood = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
-        recyclerViewFood.setLayoutManager(linearLayoutManagerFood);*/
-        //foodAdapterl.setData(getListFood());
-
-        //recyclerViewFood.setAdapter(foodAdapterl);
-
-        //Category
+        btnProfile = findViewById(R.id.profileBtn);
+        btnRegisterRes = findViewById(R.id.btnRegisterRes);
+        btnBill = findViewById(R.id.btnBill);
 
         Intent intent = getIntent();
 
@@ -119,28 +105,12 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerViewCate.setAdapter(cateAdapterl);
 
-
-
-        /*//Food
-        recyclerViewFood1 = findViewById(R.id.listFood);
-
-        foodAdapterl1 = new foodAdapter(this);
-
-        LinearLayoutManager linearLayoutManagerFood1 = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        recyclerViewFood1.setLayoutManager(linearLayoutManagerFood1);
-        foodAdapterl1.setData(getListFood());
-
-        recyclerViewFood1.setAdapter(foodAdapterl1);*/
-
-        //Load 7 cua hang
-
         listViewFood = (ListView) findViewById(R.id.list_food);
         arrayFood = new ArrayList<>();
 
         if(idCate == 0){
-            adapter = new CuaHangAdapter(this, R.layout.list_item_food, cuaHangDAO.get7CuaHang());
+            adapter = new CuaHangAdapter(this, R.layout.list_item_food, cuaHangDAO.getAllCuaHang());
         } else {
-            System.out.println(idCate);
             adapter = new CuaHangAdapter(this, R.layout.list_item_food, cuaHangDAO.getCuaHangByType(idCate));
         }
 
@@ -166,10 +136,23 @@ public class MainActivity extends AppCompatActivity {
             Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_cart);
             listMon = dialog.findViewById(R.id.list_food_cart);
+            totalCart = dialog.findViewById(R.id.totalCart);
+            List<CartDetail> cartDetailList = cartDetailDAO.getAllCart();
+            cartAdapter = new CartAdapter(this, R.layout.cart_item, cartDetailList);
 
-            cartAdapter = new CartAdapter(this, R.layout.list_item_booking, cartDetailDAO.getAllCart());
+            dialog.getWindow().setGravity(Gravity.END);
 
             listMon.setAdapter(cartAdapter);
+            int total = 0;
+            for(int i=0; i<cartDetailDAO.getAllCart().size(); i++){
+                String value = ctCuaHangDAO.getCTCuaHangByIdCuaHangMon(cartDetailList.get(i).getIdCH(), cartDetailList.get(i).getIdMon()).getPrice();
+                String[] result = ctCuaHangDAO.getCTCuaHangByIdCuaHangMon(cartDetailList.get(i).getIdCH(), cartDetailList.get(i).getIdMon()).getPrice().split(",");
+
+                int price = Integer.valueOf(ctCuaHangDAO.getCTCuaHangByIdCuaHangMon(cartDetailList.get(i).getIdCH(), cartDetailList.get(i).getIdMon()).getPrice().substring(0, 2));
+                total = total + (price * cartDetailList.get(i).getQuantity());
+            }
+            totalCart.setText(String.valueOf(total) + ",000");
+
 
             btnPay = dialog.findViewById(R.id.btnPay);
 
@@ -182,9 +165,21 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent2);
                 }
             });
+
+            ImageView btnExit  = dialog.findViewById(R.id.btnExit);
+            btnExit.setOnClickListener(view1 -> {
+                dialog.dismiss();
+            });
+
+            TextView btnDeleteAll = dialog.findViewById(R.id.btnDeleteAll);
+            btnDeleteAll.setOnClickListener(view1 -> {
+                cartDetailDAO.clear();
+                dialog.dismiss();
+            });
+
             dialog.show();
         });
-        btnProfile = findViewById(R.id.profileBtn);
+
 
         btnProfile.setOnClickListener(view -> {
             Intent intent3 = new Intent(MainActivity.this, ProfileActivity.class);
@@ -192,45 +187,55 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent3);
         });
 
-        //btnHoaDon = findViewById(R.id.btnSupport);
+        btnRegisterRes.setOnClickListener(view -> {
+            Intent intent2 = new Intent(MainActivity.this, RegisterRestaurantActivity.class);
+            intent2.putExtra("idUser", idUser);
 
-        btnRegisterRestaurant = findViewById(R.id.btnRegisterRes);
 
-        btnRegisterRestaurant.setOnClickListener(view -> {
-
+            CuaHang cuaHang = cuaHangDAO.getCuaHangByUserId(idUser);
+            if(cuaHang != null){
+                intent.putExtra("idCH", cuaHang.getId());
+            }
+            startActivity(intent2);
         });
 
+        btnBill.setOnClickListener(view -> {
+            Intent intent2 = new Intent(MainActivity.this, BillActivity.class);
+            intent2.putExtra("idUser", idUser);
+            startActivity(intent2);
+        });
 
+        eSearch = findViewById(R.id.eSearch);
+        eSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                adapter = new CuaHangAdapter(MainActivity.this, R.layout.list_item_food, cuaHangDAO.getCuaHangByNameMon(eSearch.getText().toString()));
+                listViewFood.setAdapter(adapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
-    public void DialogCart(){
-        /*Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_cart);
-        ListView listMon = findViewById(R.id.list_food_cart);
-
-
-
-        *//*SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        Map<String, ?> map = sharedPreferences.getAll();
-        Set<String> set = map.keySet();
-        for(String key : set){
-
-        }*//*
-        CartAdapter adapter2 = new CartAdapter(this, R.layout.list_item_food, cartDetailDAO.getAllCart());
-        System.out.println(cartDetailDAO.getAllCart().get(0).getIdMon());
-        listMon.setAdapter(adapter2);
-        dialog.show();*/
+    public static int getHeight(Context context) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowmanager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
     }
 
-    private List<Category> getListCate(){
-        List<Category> list = new ArrayList<Category>();
-        list.add(new Category(R.drawable.b1, "Phở"));
-        list.add(new Category(R.drawable.b2, "Bánh mì"));
-        list.add(new Category(R.drawable.b3, "Pizza"));
-        list.add(new Category(R.drawable.b4, "Sushi"));
-        list.add(new Category(R.drawable.b5, "Chicken"));
-        list.add(new Category(R.drawable.b6, "Coffe"));
-
-        return list;
+    public static int getWidth(Context context) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowmanager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.widthPixels;
     }
 
 }

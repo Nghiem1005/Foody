@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
             if(userdao.checkExistUser(eUserName.getText().toString())){
                 Toast.makeText(this, "Tên đăng nhập đã tồn tài.", Toast.LENGTH_LONG).show();
             } else {
-                userdao.insert(new User(eUserName.getText().toString(), ePassword.getText().toString(), eFullName.getText().toString(), ePhone.getText().toString(), null, eEmail.getText().toString(), "User"));
+                userdao.insert(new User(eUserName.getText().toString(), ePassword.getText().toString(), eFullName.getText().toString(), ePhone.getText().toString(), null, eEmail.getText().toString(), "User", null));
                 Toast.makeText(this, "Đã thêm tài khoản.", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(RegisterActivity.this, MainActivity1.class);
                 startActivity(intent);

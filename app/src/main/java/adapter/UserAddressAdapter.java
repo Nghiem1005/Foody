@@ -67,7 +67,7 @@ public class UserAddressAdapter extends BaseAdapter {
 
         holder.txtAddress.setText("Địa chỉ " + (i + 1));
         holder.editAddress.setText(addressList.get(i).getDescriptions());
-        System.out.println(addressList.get(i).getDescriptions());
+
 
         holder.editAddress.addTextChangedListener(new TextWatcher() {
             @Override

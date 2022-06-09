@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import models.User;
+
 public class database extends SQLiteOpenHelper {
     GetDatabase getData;
 
@@ -31,9 +33,13 @@ public class database extends SQLiteOpenHelper {
         if(typeQuery == 1){
             sql = "INSERT INTO CTCuaHang VALUES (?, ?, ?, ?, ?)";
         } else {
-            sql = "UPDATE CTCuaHang SET idCH = ?, idMon = ?, description = ?, privce = ?, image = ? CTCuaHang VALUES (?, ?, ?, ?, ?)";
+            sql = "UPDATE CTCuaHang SET idCH = ?, idMon = ?, description = ?, price = ?, image = ? CTCuaHang VALUES (?, ?, ?, ?, ?)";
         }
+    }
 
+    public void updateUser(User user){
+        SQLiteDatabase database = getWritableDatabase();
+        String sql = "UPDATE CTCuaHang SET idCH = ?, idMon = ?, description = ?, price = ?, image = ? CTCuaHang VALUES (?, ?, ?, ?, ?)";
 
     }
 
